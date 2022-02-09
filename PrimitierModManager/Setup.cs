@@ -168,6 +168,13 @@ namespace PrimitierModManager
 			{
 				var currentVersion = Assembly.GetEntryAssembly().GetName().Version;
 				var latestRelease = await Updater.GetLatestRelease();
+				if (latestRelease == null)
+				{
+					return;
+				}
+
+				
+
 				var latestReleaseVersion = new Version(latestRelease.TagName.Substring(1));
 
 				if (currentVersion < latestReleaseVersion)
