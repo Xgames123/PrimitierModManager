@@ -14,6 +14,8 @@ namespace PrimitierModManager
 
 		public static void ShowUpdatePopup(Uri link)
 		{
+			
+
 			UpdateDialog = new UpdateDialog(link);
 			DialogHost.Show(UpdateDialog);
 			

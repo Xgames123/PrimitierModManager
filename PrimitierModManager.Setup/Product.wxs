@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	
-	<?define BuildVersion = 1.0.0 ?>
-	<?define BuildVersionId = "{D97D8F9E-E6A7-444E-928B-CB0A925743B0}" ?>
+	<?define BuildVersion = 1.1.0 ?>
+	<?define BuildVersionId = "{C3764424-D455-46E3-A5DE-2C71CE56F280}" ?>
 	
 
 	<Product

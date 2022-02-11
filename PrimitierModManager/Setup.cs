@@ -20,7 +20,7 @@ namespace PrimitierModManager
 
 		public static string MelonInstallUninstallError = "";
 
-		public static void SetupPrimitierExe(string primitierExeFilePath)
+		public static void SetupPrimitierExe(string primitierExeFilePath, Dispatcher dispatcher)
 		{
 			SetupPrimitierExeError = "";
 
@@ -44,7 +44,7 @@ namespace PrimitierModManager
 			ConfigFile.Config.PrimitierInstallPath = Path.GetDirectoryName(primitierExeFilePath);
 
 
-			InstallMelonLoader(primitierExeFilePath, true);
+			InstallMelonLoader(primitierExeFilePath, true, dispatcher);
 			if (MelonInstallUninstallError != "")
 			{
 				SetupPrimitierExeError = "Can not install MelonLoader";
@@ -56,7 +56,7 @@ namespace PrimitierModManager
 			SetupPrimitierExeError = "";
 		}
 
-		private static void InstallMelonLoader(string primitierExePath, bool showPopup)
+		private static void InstallMelonLoader(string primitierExePath, bool showPopup, Dispatcher dispatcher)
 		{
 			MelonInstallUninstallError = "";
 
@@ -67,7 +67,7 @@ namespace PrimitierModManager
 				return;
 			}
 
-			Dispatcher.CurrentDispatcher.Invoke(() => 
+			dispatcher.Invoke(() => 
 			{
 				if (MelonInstaller.Error != "")
 				{
@@ -75,7 +75,7 @@ namespace PrimitierModManager
 
 					if (result == MessageBoxResult.Yes)
 					{
-						InstallMelonLoader(primitierExePath, showPopup);
+						InstallMelonLoader(primitierExePath, showPopup, dispatcher);
 					}
 					else
 					{
@@ -91,7 +91,7 @@ namespace PrimitierModManager
 
 		}
 
-		private static void UninstallMelonLoader(string primitierExePath, bool showPopup)
+		private static void UninstallMelonLoader(string primitierExePath, bool showPopup, Dispatcher dispatcher)
 		{
 			MelonInstallUninstallError = "";
 
@@ -103,7 +103,7 @@ namespace PrimitierModManager
 				return;
 			}
 
-			Dispatcher.CurrentDispatcher.Invoke(() =>
+			dispatcher.Invoke(() =>
 			{
 				if (MelonInstaller.Error != "")
 				{
@@ -111,7 +111,7 @@ namespace PrimitierModManager
 
 					if (result == MessageBoxResult.Yes)
 					{
-						InstallMelonLoader(primitierExePath, showPopup);
+						InstallMelonLoader(primitierExePath, showPopup, dispatcher);
 					}
 					else
 					{
@@ -128,7 +128,7 @@ namespace PrimitierModManager
 
 		}
 
-		public static void Uninstall(bool uninstallMods=true)
+		public static void Uninstall(Dispatcher dispatcher, bool uninstallMods=true)
 		{
 			UninstallError = "";
 
@@ -142,7 +142,7 @@ namespace PrimitierModManager
 				return;
 			}
 
-			UninstallMelonLoader(Path.Combine(ConfigFile.Config.PrimitierInstallPath, "Primitier.exe"), false);
+			UninstallMelonLoader(Path.Combine(ConfigFile.Config.PrimitierInstallPath, "Primitier.exe"), false, dispatcher);
 			if (MelonInstallUninstallError != "")
 			{
 				UninstallError = "Can not uninstall MelonLoader";
@@ -165,7 +165,7 @@ namespace PrimitierModManager
 
 		}
 
-		public static void CheckForUpdates()
+		public static void CheckForUpdates(Dispatcher dispatcher)
 		{
 
 			Task.Factory.StartNew(async () =>
@@ -194,8 +194,9 @@ namespace PrimitierModManager
 
 					}
 
-					Dispatcher.CurrentDispatcher.Invoke(() =>
+					dispatcher.Invoke(() =>
 					{
+						
 						PopupManager.ShowUpdatePopup(new Uri(downloadLink));
 
 					});

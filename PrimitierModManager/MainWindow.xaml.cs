@@ -43,6 +43,7 @@ namespace PrimitierModManager
 			var version = Assembly.GetEntryAssembly().GetName().Version;
 			Title = "Primitier mod manager v"+version.ToString(3);
 
+			
 		}
 
 

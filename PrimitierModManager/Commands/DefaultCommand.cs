@@ -34,7 +34,7 @@ namespace PrimitierModManager.Commands
 				return;
 			}
 
-			Setup.CheckForUpdates();
+			Setup.CheckForUpdates(App.Current.Dispatcher);
 
 		}
 

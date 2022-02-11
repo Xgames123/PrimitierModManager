@@ -60,7 +60,7 @@ namespace PrimitierModManager.Menus.Configuration
 			DropTargetText.Text = "Loading";
 			ButtonProgressAssist.SetIsIndicatorVisible(DropTarget, true);
 			
-			Task.Factory.StartNew(() => Setup.SetupPrimitierExe(filePath))
+			Task.Factory.StartNew(() => Setup.SetupPrimitierExe(filePath, Dispatcher))
 			.ContinueWith(t =>
 			{
 				Dispatcher.Invoke(() =>

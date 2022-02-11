@@ -25,7 +25,7 @@ namespace PrimitierModManager.Commands
 			{
 				removeMods = true;
 			}
-			Setup.Uninstall(removeMods);
+			Setup.Uninstall(App.Current.Dispatcher, removeMods);
 
 
 			ConfigFile.Config = null;
