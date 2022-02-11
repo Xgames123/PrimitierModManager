@@ -14,13 +14,19 @@ namespace PrimitierModManager.Commands
 
 		public override string Discription => "Uninstalls PMF installer";
 
-		public override ArgumentDescriptor[] ArgDescriptors => new ArgumentDescriptor[] { };
+		public override ArgumentDescriptor[] ArgDescriptors => new ArgumentDescriptor[] { new ArgumentDescriptor("RemoveMods", "If true remove the installed mods", "true") };
 
 		protected override void OnExecute(Argument[] args)
 		{
 			ConfigFile.Load();
-			
-			Setup.Uninstall();
+
+			bool removeMods = true;
+			if(!bool.TryParse(args[0].Value, out removeMods))
+			{
+				removeMods = true;
+			}
+			Setup.Uninstall(removeMods);
+
 
 			ConfigFile.Config = null;
 

@@ -128,7 +128,7 @@ namespace PrimitierModManager
 
 		}
 
-		public static void Uninstall()
+		public static void Uninstall(bool uninstallMods=true)
 		{
 			UninstallError = "";
 
@@ -149,13 +149,17 @@ namespace PrimitierModManager
 				return;
 			}
 
-			try
+			if (uninstallMods)
 			{
-				Directory.Delete(ConfigFile.PMFDirPath, true);
-			}catch (Exception e)
-			{
-				UninstallError = "Can delete mods folder";
-				return;
+				try
+				{
+					Directory.Delete(ConfigFile.PMFDirPath, true);
+				}
+				catch (Exception e)
+				{
+					UninstallError = "Can delete mods folder";
+					return;
+				}
 			}
 
 

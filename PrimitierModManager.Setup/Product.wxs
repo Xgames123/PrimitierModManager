@@ -46,10 +46,12 @@
 		</Feature>
 
 
-		<CustomAction Id="RunPrimiterModManagerUninstall" ExeCommand="Uninstall" FileKey="MAINEXE" Return='check' />
+		<CustomAction Id="RunUninstall" ExeCommand="Uninstall" FileKey="MAINEXE" Return='check' />
+		<CustomAction Id="RunUninstallMods" ExeCommand="Uninstall RemoveMods:true" FileKey="MAINEXE" Return='check' />
 
 		<InstallExecuteSequence>
-			<Custom Action='RunPrimiterModManagerUninstall' After='InstallInitialize'>Installed AND NOT UPGRADINGPRODUCTCODE</Custom>
+			<Custom Action='RunUninstall' After='InstallInitialize'>Installed</Custom>
+			<Custom Action='RunUninstallMods' After='InstallInitialize'>(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
 		</InstallExecuteSequence>
 		
 	</Product>
