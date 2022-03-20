@@ -36,7 +36,7 @@ namespace PrimitierModManager
 				if (File.Exists(args[0]))
 				{
 					new DefaultCommand().Execute(null);
-					ModManager.AddMod(args[0]);
+					ModManager.AddMod(args[0], ErrorCollector.Discard);
 					return;
 				}
 

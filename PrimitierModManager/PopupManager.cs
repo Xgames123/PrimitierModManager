@@ -1,12 +1,19 @@
 ﻿using MaterialDesignThemes.Wpf;
+using PrimitierModManager.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace PrimitierModManager
 {
+
+
+
+
 	public static class PopupManager
 	{
 		private static UpdateDialog UpdateDialog = null;
@@ -14,23 +21,26 @@ namespace PrimitierModManager
 
 		public static void ShowUpdatePopup(Uri link)
 		{
-			
 
 			UpdateDialog = new UpdateDialog(link);
 			DialogHost.Show(UpdateDialog);
 			
 		}
 
-		public static void ShowError(IErrorCollector collector, bool clearCollector=true)
+
+
+		public static void ShowErrorPopupWriteToFile(IErrorCollector collector, bool clearCollector=true)
 		{
-			if (App.MainWindow == null)
+			if (!collector.HasErrors)
 			{
 				return;
 			}
 
-			var errorPopup = App.MainWindow.ErrorPopup;
-			errorPopup.Message.Content = "ERROR"+collector.ErrorsToString();
-			errorPopup.IsActive = true;
+			ShowErrorPopup(collector.ErrorsToString());
+
+
+			Directory.CreateDirectory("Logs");
+			File.WriteAllText($"Logs/{DateTime.UtcNow.Millisecond}-{DateTime.UtcNow.Second}-{DateTime.UtcNow.Minute}-{DateTime.UtcNow.Day}-{DateTime.UtcNow.Month}-{DateTime.UtcNow.Year}.log", collector.ErrorsToVerboseString());
 
 			if (clearCollector)
 			{
@@ -40,16 +50,23 @@ namespace PrimitierModManager
 		}
 
 
-		public static void ShowError(string error)
+		public static void ShowErrorPopup(string message)
 		{
 			if (App.MainWindow == null)
 			{
 				return;
 			}
 
-			var errorPopup = App.MainWindow.ErrorPopup;
-			errorPopup.Message.Content ="Error:"+error;
-			errorPopup.IsActive = true;
+			App.MainWindow.Dispatcher.Invoke(() =>
+			{
+				var errorDialog = new ErrorDialog(message);
+				DialogHost.Show(errorDialog);
+
+			
+			});
+
+
+
 
 		}
 

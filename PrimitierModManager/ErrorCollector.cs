@@ -13,9 +13,19 @@ namespace PrimitierModManager
 
 		public void LogError(string message);
 
+		public void LogError(string message, Exception exception)
+		{
+			LogError(message);
+		}
+
 		public void Clear();
 
 		public string ErrorsToString();
+
+		public string ErrorsToVerboseString() 
+		{ 
+			return ErrorsToString(); 
+		}
 	}
 
 
@@ -24,6 +34,7 @@ namespace PrimitierModManager
 	{
 
 		private StringBuilder _errorsStringBuilder = new StringBuilder();
+		private StringBuilder _verboseStringBuilder = new StringBuilder();
 		public bool HasErrors { get; private set; } = false;
 
 		public void LogError(string message)
@@ -31,16 +42,34 @@ namespace PrimitierModManager
 			HasErrors = true;
 			_errorsStringBuilder.AppendLine(message);
 		}
+		public void LogError(string message, Exception exception)
+		{
+			HasErrors = true;
+
+			_verboseStringBuilder.AppendLine();
+			_verboseStringBuilder.AppendLine("Message:");
+			_verboseStringBuilder.AppendLine(message);
+			_verboseStringBuilder.AppendLine("InternalException:");
+			_verboseStringBuilder.AppendLine(exception.ToString());
+
+		}
 
 		public void Clear()
 		{
+			HasErrors = false;
 			_errorsStringBuilder.Clear();
+			_verboseStringBuilder.Clear();
 		}
 
 
 		public string ErrorsToString()
 		{
 			return _errorsStringBuilder.ToString();
+		}
+
+		public string ErrorsToVerboseString()
+		{
+			return _verboseStringBuilder.ToString();
 		}
 
 

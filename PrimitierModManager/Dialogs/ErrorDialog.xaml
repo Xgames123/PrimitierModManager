@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="PrimitierModManager.Dialogs.ErrorDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             xmlns:local="clr-namespace:PrimitierModManager.Dialogs"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel Orientation="Vertical" Margin="10">
+
+        <TextBlock HorizontalAlignment="Center">ERROR</TextBlock>
+        <TextBlock x:Name="MessageTextBlock"  TextTrimming="WordEllipsis" TextWrapping="NoWrap" MaxWidth="500" MaxHeight="500"></TextBlock>
+
+
+        <Button Margin="0 4 0 0" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignFlatButton}" Command="{x:Static wpf:DialogHost.CloseDialogCommand}">Ok</Button>
+
+
+    </StackPanel>
+</UserControl>

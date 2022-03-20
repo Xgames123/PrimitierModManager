@@ -22,7 +22,7 @@ namespace PrimitierModManager
 		[JsonProperty(Required = Required.DisallowNull)]
 		public string[] ActiveMods = new string[0];
 
-		public static void RebuildDirectorySturcture()
+		public static void RebuildDirectorySturcture(IErrorCollector collector)
 		{
 			try
 			{
@@ -36,7 +36,7 @@ namespace PrimitierModManager
 			}
 			catch (Exception e)
 			{
-				PopupManager.ShowError("Can not rebuild directory structure");
+				collector.LogError("Can not rebuild directory structure", e);
 			}
 		
 
@@ -56,7 +56,7 @@ namespace PrimitierModManager
 				return true;
 			}
 
-			RebuildDirectorySturcture();
+			RebuildDirectorySturcture(collector);
 
 			try
 			{

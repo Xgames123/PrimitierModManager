@@ -103,6 +103,7 @@ namespace PrimitierModManager
 
 			if (ConfigFile.Config == null && !ConfigFile.Load(collector))
 			{
+				PopupManager.ShowErrorPopupWriteToFile(collector);
 				return;
 			}
 
@@ -111,7 +112,7 @@ namespace PrimitierModManager
 			List<string> ActiveModsNames = new List<string>(modDirFiles.Length);
 			foreach (var modPath in modDirFiles)
 			{
-				var mod = LoadModFromFile(modPath);
+				var mod = LoadModFromFile(modPath, collector);
 				if (mod != null)
 				{
 
@@ -140,7 +141,10 @@ namespace PrimitierModManager
 			ConfigFile.Config.ActiveMods = ActiveModsNames.ToArray();
 			ConfigFile.Save();
 
+		
 			OnModListsUpdate?.Invoke();
+
+			PopupManager.ShowErrorPopupWriteToFile(collector);
 		}
 
 		public static ZipArchiveEntry GenerateModJsonFile(ZipArchive zip, string zipFilePath)
@@ -195,9 +199,9 @@ namespace PrimitierModManager
 
 			ReloadMods();
 		}
-		public static void AddMod(string file)
+		public static void AddMod(string file, IErrorCollector collector)
 		{
-			if (!ValidateModFile(file, true, tryFix:true))
+			if (!ValidateModFile(file, collector, tryFix:true))
 			{
 				return;
 			}
@@ -207,7 +211,7 @@ namespace PrimitierModManager
 				File.Copy(file, Path.Combine(ConfigFile.PMFModsDirPath, Path.GetFileName(file)), true);
 			}catch (Exception e)
 			{
-				PopupManager.ShowError("Can not copy mod files");
+				collector.LogError("Can not copy mod files", e);
 
 			}
 
@@ -215,7 +219,7 @@ namespace PrimitierModManager
 		}
 
 
-		public static Mod? LoadModFromFile(string file)
+		public static Mod? LoadModFromFile(string file, IErrorCollector collector)
 		{
 			var zipStream = File.Open(file, FileMode.Open, FileAccess.ReadWrite);
 			var zip = new ZipArchive(zipStream, ZipArchiveMode.Update);
@@ -234,7 +238,7 @@ namespace PrimitierModManager
 			}
 			catch (Exception e)
 			{
-				PopupManager.ShowError($"Can not load mod '{file}' invalid Mod.json");
+				collector.LogError($"Can not load mod '{file}' invalid Mod.json", e);
 				return null;
 			}
 
@@ -302,19 +306,19 @@ namespace PrimitierModManager
 
 
 
-		private static bool ValidateModFile(string file, bool displayErrors=false, bool tryFix=false)
+		private static bool ValidateModFile(string file, IErrorCollector collector, bool tryFix=false)
 		{
 			if (!File.Exists(file))
 			{
-				if (displayErrors)
-					PopupManager.ShowError($"Can not find mod '{file}'");
+				collector.LogError($"Can not find mod '{file}'");
+
 				return false;
 			}
 
 			if (Path.GetExtension(file) != ".pmfm" && Path.GetExtension(file) != ".zip")
 			{
-				if (displayErrors)
-					PopupManager.ShowError($"Mod '{file}' is not the right file type");
+				collector.LogError($"Mod '{file}' is not the right file type");
+
 				return false;
 			}
 
@@ -326,8 +330,7 @@ namespace PrimitierModManager
 				zip = new ZipArchive(zipStream, ZipArchiveMode.Update, true);
 			}catch(Exception e)
 			{
-				if (displayErrors)
-					PopupManager.ShowError($"Can't read '{file}'");
+				collector.LogError($"Can't read '{file}'", e);
 				return false;
 			}
 			
@@ -339,7 +342,7 @@ namespace PrimitierModManager
 				}
 				else
 				{
-					PopupManager.ShowError($"Mod '{file}' doesn't contain a Mod.json file");
+					collector.LogError($"Mod '{file}' doesn't contain a Mod.json file");
 					return false;
 				}
 

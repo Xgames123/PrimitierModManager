@@ -34,8 +34,7 @@ namespace PrimitierModManager
 
 			if (collector.HasErrors)
 			{
-				PopupManager.ShowError(collector.ErrorsToString());
-				return;
+				PopupManager.ShowErrorPopupWriteToFile(collector);
 			}
 
 			
@@ -69,7 +68,7 @@ namespace PrimitierModManager
 					}
 				}catch(Exception e)
 				{
-					collector.LogError($"Can not delete '{fileSystemEntry}'");
+					collector.LogError($"Can not delete '{Path.GetFileName(fileSystemEntry)}'");
 				}
 
 			}
@@ -92,10 +91,10 @@ namespace PrimitierModManager
 			{
 				try
 				{
-					File.Copy(proxyDll, Path.Combine(melonModsDir, Path.GetFileName(proxyDll)));
+					File.Copy(proxyDll, Path.Combine(melonModsDir, Path.GetFileName(proxyDll)), true);
 				}catch(Exception e)
 				{
-					collector.LogError($"Could not copy '{proxyDll}' to '{melonModsDir}'");
+					collector.LogError($"Could not copy '{Path.GetFileName(proxyDll)}' to '{melonModsDir}'");
 					continue;
 				}
 
@@ -103,7 +102,7 @@ namespace PrimitierModManager
 
 			try
 			{
-				File.Copy(Path.Combine(ConfigFile.Config.PrimitierInstallPath, "MelonLoader", "MelonLoader.dll"), Path.Combine(melonModsDir, "MelonLoader.dll"));
+				File.Copy(Path.Combine(ConfigFile.Config.PrimitierInstallPath, "MelonLoader", "MelonLoader.dll"), Path.Combine(melonModsDir, "MelonLoader.dll"), true);
 			}catch(Exception e)
 			{
 				collector.LogError($"Could not copy MelonLoader.dll to '{melonModsDir}'");

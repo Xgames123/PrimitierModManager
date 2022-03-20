@@ -68,7 +68,7 @@ namespace PrimitierModManager.Menus.Configuration
 					if (Setup.SetupPrimitierExeError != "")
 					{
 						ResetDragDrop();
-						PopupManager.ShowError(Setup.SetupPrimitierExeError);
+						PopupManager.ShowErrorPopup(Setup.SetupPrimitierExeError);
 					}
 					else
 					{
