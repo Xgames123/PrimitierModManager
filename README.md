@@ -15,8 +15,8 @@ If you get this click on More information.(This will go away if enough people do
 ## Step 2
 find a mod you want to download and drag it into Primitier mod manager
 ### some mods i have found
-. [SomeRandomDude HungerMod](https://github.com/SomeRandomDude-git/PrimiterMods/tree/main/BasicHungerMod)
-. [TotalJTM Creative mod](https://github.com/TotalJTM/PrimitierCreativeMode)
+- [SomeRandomDude HungerMod](https://github.com/SomeRandomDude-git/PrimiterMods/tree/main/BasicHungerMod)
+- [TotalJTM Creative mod](https://github.com/TotalJTM/PrimitierCreativeMode)
 
 ## Step 3
 Click the arrow next to the mod to select it and
