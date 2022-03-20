@@ -77,9 +77,12 @@ namespace PrimitierModManager
 			var collector = new ErrorCollector();
 
 			if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+			{
 				collector.LogError("Data dropped into program was not a file");
 				PopupManager.ShowErrorPopupWriteToFile(collector);
 				return;
+			}
+				
 
 			var fileDropData = (string[])e.Data.GetData(DataFormats.FileDrop);
 
