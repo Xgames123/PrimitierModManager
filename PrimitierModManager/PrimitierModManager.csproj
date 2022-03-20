@@ -1,5 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+    <PropertyGroup>
+		<PMMAuthors>XGames105</PMMAuthors>
+		<PMMVersion>1.1.1</PMMVersion>
+    </PropertyGroup>
+	
+	
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
@@ -7,12 +13,13 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Assets\Images\Icon.ico</ApplicationIcon>
    
-    <Company>XGames105</Company>
-    <Authors>XGames105</Authors>
-	<AssemblyVersion>1.1</AssemblyVersion>
-	<FileVersion>1.1</FileVersion>
-    <Version>1.1</Version>
-	 
+    <Company>$(PMMAuthors)</Company>
+    <Authors>$(PMMAuthors)</Authors>
+	<AssemblyVersion>$(PMMVersion)</AssemblyVersion>
+	<FileVersion>$(PMMVersion)</FileVersion>
+    <Version>$(PMMVersion)</Version>
+	<AssemblyName>PrimitierModManagerV$(PMMVersion)</AssemblyName>
+	  
   </PropertyGroup>
 
   <ItemGroup>

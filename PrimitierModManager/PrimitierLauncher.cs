@@ -15,28 +15,44 @@ namespace PrimitierModManager
 	{
 		public static void LaunchWithSelectedMods()
 		{
-			Thread.Sleep(2000);
+			var collector = new ErrorCollector();
 
-			if (ConfigFile.Config == null)
+			if (ConfigFile.Config == null && !ConfigFile.Load(collector))
 			{
-				ConfigFile.Load();
+				return;
 			}
 
-			CleanMelonModsDirectory();
-			CopyProxyDllsList();
+			CleanMelonModsDirectory(collector);
+		
 
 			foreach (var mod in ModManager.ActiveMods)
 			{
-				ExtractModFiles(mod);
+				ExtractModFiles(mod, collector);
 			}
+
+			CopyProxyDlls(collector);
+
+			if (collector.HasErrors)
+			{
+				PopupManager.ShowError(collector.ErrorsToString());
+				return;
+			}
+
+			
 
 			Process.Start(Path.Combine(ConfigFile.Config.PrimitierInstallPath, "Primitier.exe"));
 
 			
 		}
 
-		private static void CleanMelonModsDirectory()
+		private static void CleanMelonModsDirectory(IErrorCollector collector)
 		{
+			
+			if (ConfigFile.Config == null && !ConfigFile.Load(collector))
+			{
+				return;
+			}
+
 			string melonModsDir = Path.Combine(ConfigFile.Config.PrimitierInstallPath, "Mods");
 
 			foreach (var fileSystemEntry in Directory.GetFileSystemEntries(melonModsDir))
@@ -53,7 +69,7 @@ namespace PrimitierModManager
 					}
 				}catch(Exception e)
 				{
-					PopupManager.ShowError($"Can not delete '{fileSystemEntry}'");
+					collector.LogError($"Can not delete '{fileSystemEntry}'");
 				}
 
 			}
@@ -62,8 +78,13 @@ namespace PrimitierModManager
 		}
 
 
-		private static void CopyProxyDllsList()
+		private static void CopyProxyDlls(IErrorCollector collector)
 		{
+			if (ConfigFile.Config == null && !ConfigFile.Load(collector))
+			{
+				return;
+			}
+
 			var proxyDllsPath = Path.Combine(ConfigFile.Config.PrimitierInstallPath, "MelonLoader", "Managed");
 			var melonModsDir = Path.Combine(ConfigFile.Config.PrimitierInstallPath, "Mods");
 
@@ -74,25 +95,47 @@ namespace PrimitierModManager
 					File.Copy(proxyDll, Path.Combine(melonModsDir, Path.GetFileName(proxyDll)));
 				}catch(Exception e)
 				{
+					collector.LogError($"Could not copy '{proxyDll}' to '{melonModsDir}'");
 					continue;
 				}
 
+			}
+
+			try
+			{
+				File.Copy(Path.Combine(ConfigFile.Config.PrimitierInstallPath, "MelonLoader", "MelonLoader.dll"), Path.Combine(melonModsDir, "MelonLoader.dll"));
+			}catch(Exception e)
+			{
+				collector.LogError($"Could not copy MelonLoader.dll to '{melonModsDir}'");
+				return;
 			}
 
 
 		}
 
 
-		private static void ExtractModFiles(Mod mod)
+		private static void ExtractModFiles(Mod mod, IErrorCollector collector)
 		{
-			var zip = ZipFile.OpenRead(mod.FileName);
+			if (ConfigFile.Config == null && !ConfigFile.Load(collector))
+			{
+				return;
+			}
 
-			string melonModsDir = Path.Combine(ConfigFile.Config.PrimitierInstallPath, "Mods");
-			
-			zip.ExtractToDirectory(melonModsDir, true);
+			try
+			{
+				var zip = ZipFile.OpenRead(mod.FileName);
+
+				string melonModsDir = Path.Combine(ConfigFile.Config.PrimitierInstallPath, "Mods");
+
+				zip.ExtractToDirectory(melonModsDir, true);
 
 
-			zip.Dispose();
+				zip.Dispose();
+			}catch(Exception e)
+			{
+				collector.LogError($"Can not extract mod '{mod.FileName}'");
+			}
+		
 		}
 
 

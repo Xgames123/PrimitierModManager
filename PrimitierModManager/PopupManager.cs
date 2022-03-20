@@ -21,6 +21,23 @@ namespace PrimitierModManager
 			
 		}
 
+		public static void ShowError(IErrorCollector collector, bool clearCollector=true)
+		{
+			if (App.MainWindow == null)
+			{
+				return;
+			}
+
+			var errorPopup = App.MainWindow.ErrorPopup;
+			errorPopup.Message.Content = "ERROR"+collector.ErrorsToString();
+			errorPopup.IsActive = true;
+
+			if (clearCollector)
+			{
+				collector.Clear();
+			}
+
+		}
 
 
 		public static void ShowError(string error)

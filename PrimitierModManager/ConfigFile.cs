@@ -43,37 +43,66 @@ namespace PrimitierModManager
 
 		}
 
+		public static bool Load()
+		{
+			return Load(ErrorCollector.Discard);
+		}
 
-		public static void Load()
+
+		public static bool Load(IErrorCollector collector)
 		{
 			if (Config != null)
 			{
-				return;
+				return true;
 			}
 
 			RebuildDirectorySturcture();
+
 			try
 			{
 				Config = JsonConvert.DeserializeObject<ConfigFile>(File.ReadAllText(ConfigFilePath));
-			}catch(Exception e)
-			{
-				Config = null;
-				if (App.MainWindow != null)
+				if (Config != null)
 				{
-					App.MainWindow.SwitchMenu(1);
+					return true;
 				}
 				
+			}catch(Exception e)
+			{
 			}
 			
+			Config = null;
+			collector.LogError("Can not load config file");
+			
+			
+			if (App.MainWindow != null)
+			{
+				App.MainWindow.SwitchMenu(1);
+			}
+
+			return false;
 		}
+
 		public static void Save()
+		{
+			Save(ErrorCollector.Discard);
+		}
+
+
+		public static void Save(IErrorCollector collector)
 		{
 			if (Config == null)
 			{
 				return;
 			}
-
-			File.WriteAllText(ConfigFilePath, JsonConvert.SerializeObject(Config));
+			try
+			{
+				File.WriteAllText(ConfigFilePath, JsonConvert.SerializeObject(Config));
+			}
+			catch (Exception e)
+			{
+				collector.LogError("Can not save config file");
+			}
+			
 
 		}
 

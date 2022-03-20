@@ -96,18 +96,16 @@ namespace PrimitierModManager
 
 		public static void ReloadMods()
 		{
+			var collector = new ErrorCollector();
 
 			LoadedMods.Clear();
 			ActiveMods.Clear();
 
-			if (ConfigFile.Config == null)
-			{
-				ConfigFile.Load();
-			}
-			if (ConfigFile.Config == null)
+			if (ConfigFile.Config == null && !ConfigFile.Load(collector))
 			{
 				return;
 			}
+
 			
 			var modDirFiles = Directory.GetFiles(ConfigFile.PMFModsDirPath);
 			List<string> ActiveModsNames = new List<string>(modDirFiles.Length);
@@ -116,9 +114,10 @@ namespace PrimitierModManager
 				var mod = LoadModFromFile(modPath);
 				if (mod != null)
 				{
+
 					if (LoadedMods.Contains(mod) || ActiveMods.Contains(mod))
 					{
-						PopupManager.ShowError("Found 2 or more mods with the same Hash");
+						collector.LogError($"'{mod.DisplayName}' is loaded double");
 						continue;
 					}
 					
