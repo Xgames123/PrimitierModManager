@@ -18,7 +18,7 @@
 	<AssemblyVersion>$(PMMVersion)</AssemblyVersion>
 	<FileVersion>$(PMMVersion)</FileVersion>
     <Version>$(PMMVersion)</Version>
-	<AssemblyName>PrimitierModManagerV$(PMMVersion)</AssemblyName>
+	<AssemblyName>PrimitierModManager</AssemblyName>
 	  
   </PropertyGroup>
 
