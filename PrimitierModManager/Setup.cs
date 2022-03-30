@@ -14,7 +14,6 @@ namespace PrimitierModManager
 {
 	public static class Setup
 	{
-		public static string UninstallError = "";
 
 		public static string SetupPrimitierExeError = "";
 
@@ -111,7 +110,7 @@ namespace PrimitierModManager
 
 					if (result == MessageBoxResult.Yes)
 					{
-						InstallMelonLoader(primitierExePath, showPopup, dispatcher);
+						UninstallMelonLoader(primitierExePath, showPopup, dispatcher);
 					}
 					else
 					{
@@ -128,9 +127,8 @@ namespace PrimitierModManager
 
 		}
 
-		public static void Uninstall(Dispatcher dispatcher, bool uninstallMods=true)
+		public static void Uninstall(Dispatcher dispatcher, IErrorCollector collector, bool uninstallMods=true)
 		{
-			UninstallError = "";
 
 			if (ConfigFile.Config == null)
 			{
@@ -138,14 +136,14 @@ namespace PrimitierModManager
 			}
 			if (ConfigFile.Config == null)
 			{
-				UninstallError = "No config file found";
+				collector.LogError("No config file found");
 				return;
 			}
 
 			UninstallMelonLoader(Path.Combine(ConfigFile.Config.PrimitierInstallPath, "Primitier.exe"), false, dispatcher);
 			if (MelonInstallUninstallError != "")
 			{
-				UninstallError = "Can not uninstall MelonLoader";
+				collector.LogError("Can not uninstall MelonLoader");
 				return;
 			}
 
@@ -157,7 +155,7 @@ namespace PrimitierModManager
 				}
 				catch (Exception e)
 				{
-					UninstallError = "Can delete mods folder";
+					collector.LogError("Can't delete mods folder");
 					return;
 				}
 			}

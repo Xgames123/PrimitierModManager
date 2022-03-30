@@ -34,7 +34,7 @@ namespace PrimitierModManager
 
 			if (collector.HasErrors)
 			{
-				PopupManager.ShowErrorPopupWriteToFile(collector);
+				LogManager.FlushCollector(collector);
 			}
 
 			

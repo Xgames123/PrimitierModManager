@@ -27,9 +27,17 @@ namespace PrimitierModManager
 
 			if (commandlineArgs.Length > 1)
 			{
+				if (commandlineArgs[1] == "cleanup")
+				{
+					Setup.Uninstall(App.Current.Dispatcher, collector, false);
+					LogManager.FlushCollector(collector);
+					return;
+				}
+
 				if (File.Exists(commandlineArgs[1]))
 				{
 					ModManager.AddMod(commandlineArgs[1], collector);
+					LogManager.FlushCollector(collector);
 					return;
 				}
 
@@ -50,7 +58,7 @@ namespace PrimitierModManager
 			new MainWindow();
 			App.MainWindow.Show();
 
-			PopupManager.ShowErrorPopupWriteToFile(collector);
+			LogManager.FlushCollector(collector);
 
 			Setup.CheckForUpdates(App.Current.MainWindow.Dispatcher);
 

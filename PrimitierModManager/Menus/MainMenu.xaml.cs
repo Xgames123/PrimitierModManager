@@ -79,7 +79,7 @@ namespace PrimitierModManager
 			if (!e.Data.GetDataPresent(DataFormats.FileDrop))
 			{
 				collector.LogError("Data dropped into program was not a file");
-				PopupManager.ShowErrorPopupWriteToFile(collector);
+				LogManager.FlushCollector(collector);
 				return;
 			}
 				
@@ -89,7 +89,7 @@ namespace PrimitierModManager
 			if (fileDropData == null)
 			{
 				collector.LogError("data dropped into program was invalid");
-				PopupManager.ShowErrorPopupWriteToFile(collector);
+				LogManager.FlushCollector(collector);
 				return;
 			}
 			for (int i = 0; i < fileDropData.Length; i++)
@@ -104,7 +104,7 @@ namespace PrimitierModManager
 
 			}
 
-			PopupManager.ShowErrorPopupWriteToFile(collector);
+			LogManager.FlushCollector(collector);
 		}
 	}
 }

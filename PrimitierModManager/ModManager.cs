@@ -103,7 +103,7 @@ namespace PrimitierModManager
 
 			if (ConfigFile.Config == null && !ConfigFile.Load(collector))
 			{
-				PopupManager.ShowErrorPopupWriteToFile(collector);
+				LogManager.FlushCollector(collector);
 				return;
 			}
 
@@ -144,7 +144,7 @@ namespace PrimitierModManager
 		
 			OnModListsUpdate?.Invoke();
 
-			PopupManager.ShowErrorPopupWriteToFile(collector);
+			LogManager.FlushCollector(collector);
 		}
 
 		public static ZipArchiveEntry GenerateModJsonFile(ZipArchive zip, string zipFilePath)

@@ -2,7 +2,8 @@
 using PrimitierModManager.Dialogs;
 using System;
 using System.Collections.Generic;
-using System.IO;
+
+using System.Windows;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,32 +30,12 @@ namespace PrimitierModManager
 
 
 
-		public static void ShowErrorPopupWriteToFile(IErrorCollector collector, bool clearCollector=true)
-		{
-			if (!collector.HasErrors)
-			{
-				return;
-			}
-
-			ShowErrorPopup(collector.ErrorsToString());
-
-			Directory.CreateDirectory("Logs");
-
-			File.AppendAllText($"Logs/{DateTime.UtcNow.Minute}-{DateTime.UtcNow.Day}-{DateTime.UtcNow.Month}-{DateTime.UtcNow.Year}.log", collector.ErrorsToVerboseString());
-
-
-			if (clearCollector)
-			{
-				collector.Clear();
-			}
-
-		}
-
 
 		public static void ShowErrorPopup(string message)
 		{
 			if (App.MainWindow == null)
 			{
+				var result = MessageBox.Show(message, "Error", MessageBoxButton.OK);
 				return;
 			}
 

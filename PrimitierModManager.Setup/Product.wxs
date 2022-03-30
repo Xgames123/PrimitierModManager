@@ -45,7 +45,12 @@
 			<ComponentGroupRef Id="ProductComponents" />
 		</Feature>
 
+		
+		<CustomAction Id="RunCleanup" ExeCommand="cleanup" FileKey="MAINEXE" Return='ignore' Impersonate='no' />
 
+		<InstallExecuteSequence>
+			<Custom Action='RunCleanup' After='InstallInitialize'>Installed</Custom>
+		</InstallExecuteSequence>
 		
 	</Product>
  
