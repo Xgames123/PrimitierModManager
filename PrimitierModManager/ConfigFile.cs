@@ -71,7 +71,6 @@ namespace PrimitierModManager
 			}
 			
 			Config = null;
-			collector.LogError("Can not load config file");
 			
 			
 			if (App.MainWindow != null)

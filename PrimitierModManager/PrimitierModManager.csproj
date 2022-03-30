@@ -2,7 +2,7 @@
 
     <PropertyGroup>
 		<PMMAuthors>XGames105</PMMAuthors>
-		<PMMVersion>1.1.1</PMMVersion>
+		<PMMVersion>1.1.2</PMMVersion>
     </PropertyGroup>
 	
 	
@@ -26,7 +26,6 @@
     <PackageReference Include="MaterialDesignThemes" Version="4.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Octokit" Version="0.50.0" />
-    <PackageReference Include="XGames.BetterConsole.Net" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +36,10 @@
 
   <ItemGroup>
     <Content Include="Assets\Images\Icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\" />
   </ItemGroup>
 
 	

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	
-	<?define BuildVersion = 1.1.1 ?>
-	<?define BuildVersionId = "{279709DD-D7CA-4268-8A27-6E8FF5A74FDA}" ?>
+	<?define BuildVersion = 1.1.2 ?>
+	<?define BuildVersionId = "{E6C9869B-479E-4D5B-892F-7FB902767D67}" ?>
 	
 
 	<Product
@@ -46,13 +46,6 @@
 		</Feature>
 
 
-		<CustomAction Id="RunUninstall" ExeCommand="Uninstall" FileKey="MAINEXE" Return='check' />
-		<CustomAction Id="RunUninstallMods" ExeCommand="Uninstall RemoveMods:true" FileKey="MAINEXE" Return='check' />
-
-		<InstallExecuteSequence>
-			<Custom Action='RunUninstall' After='InstallInitialize'>Installed</Custom>
-			<Custom Action='RunUninstallMods' After='InstallInitialize'>(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
-		</InstallExecuteSequence>
 		
 	</Product>
  

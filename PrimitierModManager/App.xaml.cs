@@ -1,13 +1,12 @@
-﻿using BetterConsole;
-using PrimitierModManager.Commands;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Reflection;
+using System.Diagnostics;
 
 namespace PrimitierModManager
 {
@@ -18,38 +17,43 @@ namespace PrimitierModManager
 	{
 		public static MainWindow MainWindow = null;
 		
-		private void ParseCommandLine()
+
+		private void Application_Startup(object sender, StartupEventArgs e)
 		{
-			var commandLine = Environment.GetCommandLineArgs();
+			var collector = new ErrorCollector();
 
-			if (commandLine.Length == 0)
+			var commandlineArgs = Environment.GetCommandLineArgs();
+
+
+			if (commandlineArgs.Length > 1)
 			{
-				new DefaultCommand().Execute(null);
-				return;
-			}
-
-			var args = new string[commandLine.Length - 1];
-			Array.Copy(commandLine, 1, args, 0, args.Length);
-
-			if (args.Length > 0)
-			{
-				if (File.Exists(args[0]))
+				if (File.Exists(commandlineArgs[1]))
 				{
-					new DefaultCommand().Execute(null);
-					ModManager.AddMod(args[0], ErrorCollector.Discard);
+					ModManager.AddMod(commandlineArgs[1], collector);
 					return;
 				}
 
 			}
 
 
-			Command.RunCommand(args, new DefaultCommand(), new UninstallCommand());
-		}
+			ConfigFile.Load(collector);
 
 
-		private void Application_Startup(object sender, StartupEventArgs e)
-		{
-			ParseCommandLine();
+			var IsAlreadyRunning = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()?.Location)).Count() > 1;
+
+			if (IsAlreadyRunning)
+			{
+				App.Current.Shutdown();
+				return;
+			}
+
+			new MainWindow();
+			App.MainWindow.Show();
+
+			PopupManager.ShowErrorPopupWriteToFile(collector);
+
+			Setup.CheckForUpdates(App.Current.MainWindow.Dispatcher);
+
 
 		}
 

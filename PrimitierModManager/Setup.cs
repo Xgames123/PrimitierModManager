@@ -170,7 +170,7 @@ namespace PrimitierModManager
 
 			Task.Factory.StartNew(async () =>
 			{
-				var currentVersion = Assembly.GetEntryAssembly().GetName().Version;
+				var currentVersion = Assembly.GetEntryAssembly()?.GetName().Version;
 				var latestRelease = await Updater.GetLatestRelease();
 				if (latestRelease == null)
 				{

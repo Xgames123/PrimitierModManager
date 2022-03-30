@@ -38,9 +38,10 @@ namespace PrimitierModManager
 
 			ShowErrorPopup(collector.ErrorsToString());
 
-
 			Directory.CreateDirectory("Logs");
-			File.WriteAllText($"Logs/{DateTime.UtcNow.Millisecond}-{DateTime.UtcNow.Second}-{DateTime.UtcNow.Minute}-{DateTime.UtcNow.Day}-{DateTime.UtcNow.Month}-{DateTime.UtcNow.Year}.log", collector.ErrorsToVerboseString());
+
+			File.AppendAllText($"Logs/{DateTime.UtcNow.Minute}-{DateTime.UtcNow.Day}-{DateTime.UtcNow.Month}-{DateTime.UtcNow.Year}.log", collector.ErrorsToVerboseString());
+
 
 			if (clearCollector)
 			{

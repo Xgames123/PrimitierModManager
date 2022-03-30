@@ -19,7 +19,6 @@
 
 
 				<File Name="Octokit.dll"/>
-				<File Name="BetterConsole.dll"/>
 				<File Name="Newtonsoft.Json.dll"/>
 				<File Name="MaterialDesignThemes.Wpf.dll"/>
 				<File Name="MaterialDesignColors.dll"/>
