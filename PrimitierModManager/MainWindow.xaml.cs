@@ -25,8 +25,13 @@ namespace PrimitierModManager
 
 		public void SwitchMenu(int menuIndex)
 		{
-			var oldMenu = (IMenu)((TransitionerSlide)Transitioner.SelectedItem).Content;
-			oldMenu?.OnClose();
+			if (Transitioner.SelectedItem != null)
+			{
+				var oldMenu = (IMenu)((TransitionerSlide)Transitioner.SelectedItem).Content;
+				oldMenu?.OnClose();
+			}
+
+			
 			Transitioner.SelectedIndex = menuIndex;
 			var newMenu = (IMenu)((TransitionerSlide)Transitioner.SelectedItem).Content;
 			newMenu?.OnOpen();

@@ -41,10 +41,17 @@ namespace PrimitierModManager
 		{
 			HasErrors = true;
 			_errorsStringBuilder.AppendLine(message);
+
+			_verboseStringBuilder.AppendLine();
+			_verboseStringBuilder.AppendLine("Message:");
+			_verboseStringBuilder.AppendLine(message);
+			_verboseStringBuilder.AppendLine("InternalException: not given");
 		}
 		public void LogError(string message, Exception exception)
 		{
 			HasErrors = true;
+
+			_errorsStringBuilder.AppendLine(message);
 
 			_verboseStringBuilder.AppendLine();
 			_verboseStringBuilder.AppendLine("Message:");

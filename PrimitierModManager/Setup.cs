@@ -19,6 +19,9 @@ namespace PrimitierModManager
 
 		public static string MelonInstallUninstallError = "";
 
+
+
+
 		public static void SetupPrimitierExe(string primitierExeFilePath, Dispatcher dispatcher)
 		{
 			SetupPrimitierExeError = "";

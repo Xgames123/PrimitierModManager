@@ -55,8 +55,6 @@ namespace PrimitierModManager
 		private void LaunchPrimitierButton_Click(object sender, RoutedEventArgs e)
 		{
 			ButtonProgressAssist.SetIsIndicatorVisible(LaunchPrimitierButton, true);
-
-			ButtonProgressAssist.SetIsIndicatorVisible(LaunchPrimitierButton, true);
 			Task.Factory.StartNew(() => PrimitierLauncher.LaunchWithSelectedMods())
 			.ContinueWith(t =>
 			{

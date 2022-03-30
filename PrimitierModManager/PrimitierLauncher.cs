@@ -54,6 +54,12 @@ namespace PrimitierModManager
 
 			string melonModsDir = Path.Combine(ConfigFile.Config.PrimitierInstallPath, "Mods");
 
+			if (!Directory.Exists(melonModsDir))
+			{
+				collector.LogError("MelonMods directory not found. This could be because Melonloader is not installed properly or the primitier path is not setup properly");
+				return;
+			}
+
 			foreach (var fileSystemEntry in Directory.GetFileSystemEntries(melonModsDir))
 			{
 				try
@@ -86,6 +92,12 @@ namespace PrimitierModManager
 
 			var proxyDllsPath = Path.Combine(ConfigFile.Config.PrimitierInstallPath, "MelonLoader", "Managed");
 			var melonModsDir = Path.Combine(ConfigFile.Config.PrimitierInstallPath, "Mods");
+
+			if (!Directory.Exists(proxyDllsPath))
+			{
+				collector.LogError("Proxy dll path not found. This could be because Melonloader is not installed properly or the primitier path is not setup properly");
+				return;
+			}
 
 			foreach (var proxyDll in Directory.GetFiles(proxyDllsPath))
 			{

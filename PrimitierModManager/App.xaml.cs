@@ -31,6 +31,7 @@ namespace PrimitierModManager
 				{
 					Setup.Uninstall(App.Current.Dispatcher, collector, false);
 					LogManager.FlushCollector(collector);
+					App.Current.Shutdown();
 					return;
 				}
 
@@ -38,6 +39,7 @@ namespace PrimitierModManager
 				{
 					ModManager.AddMod(commandlineArgs[1], collector);
 					LogManager.FlushCollector(collector);
+					App.Current.Shutdown();
 					return;
 				}
 

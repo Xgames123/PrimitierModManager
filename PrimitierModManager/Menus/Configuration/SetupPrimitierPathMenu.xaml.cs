@@ -30,8 +30,18 @@ namespace PrimitierModManager.Menus.Configuration
 		public SetupPrimitierPathMenu()
 		{
 			InitializeComponent();
-		}
 
+			if (ConfigFile.Config == null && !ConfigFile.Load())
+			{
+				return;
+			}
+			if(!string.IsNullOrEmpty(ConfigFile.Config.PrimitierInstallPath))
+			{
+				SetDragDrop(System.IO.Path.Combine(ConfigFile.Config.PrimitierInstallPath, "Primitier.exe"));
+			}
+
+
+		}
 
 		private void ResetDragDrop()
 		{
@@ -40,26 +50,13 @@ namespace PrimitierModManager.Menus.Configuration
 			ButtonProgressAssist.SetIsIndicatorVisible(DropTarget, false);
 		}
 
-
-		private void OnDrop(object sender, DragEventArgs e)
+		private void SetDragDrop(string filePath)
 		{
-
-			if (!e.Data.GetDataPresent(DataFormats.FileDrop))
-				return;
-
-			var fileDropData = (string[])e.Data.GetData(DataFormats.FileDrop);
 			
-			if (fileDropData == null || fileDropData.Length == 0 || fileDropData[0] == null)
-			{
-				return;
-			}
-
-			string filePath = fileDropData[0];
-
 			DropTarget.AllowDrop = false;
 			DropTargetText.Text = "Loading";
 			ButtonProgressAssist.SetIsIndicatorVisible(DropTarget, true);
-			
+
 			Task.Factory.StartNew(() => Setup.SetupPrimitierExe(filePath, Dispatcher))
 			.ContinueWith(t =>
 			{
@@ -78,10 +75,27 @@ namespace PrimitierModManager.Menus.Configuration
 					}
 
 				});
-			
-	
+
+
 			});
 
+
+		}
+
+
+		private void OnDrop(object sender, DragEventArgs e)
+		{
+			if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+				return;
+
+			var fileDropData = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+			if (fileDropData == null || fileDropData.Length == 0 || fileDropData[0] == null)
+			{
+				return;
+			}
+
+			SetDragDrop(fileDropData[0]);
 
 		}
 

@@ -61,7 +61,7 @@ namespace PrimitierModManager
 			try
 			{
 				Config = JsonConvert.DeserializeObject<ConfigFile>(File.ReadAllText(ConfigFilePath));
-				if (Config != null)
+				if (Config != null && Directory.Exists(Config.PrimitierInstallPath))
 				{
 					return true;
 				}
@@ -69,8 +69,6 @@ namespace PrimitierModManager
 			}catch(Exception e)
 			{
 			}
-			
-			Config = null;
 			
 			
 			if (App.MainWindow != null)
