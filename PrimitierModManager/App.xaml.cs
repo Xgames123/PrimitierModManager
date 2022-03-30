@@ -53,6 +53,7 @@ namespace PrimitierModManager
 
 			if (IsAlreadyRunning)
 			{
+				LogManager.FlushCollector(collector);
 				App.Current.Shutdown();
 				return;
 			}
