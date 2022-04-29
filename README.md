@@ -6,7 +6,8 @@ Primitier mod manager is a tool to easily install mods for Primitier.
 ## Downloading Mods.
 
 ## Step 1
-Install the [latest release](https://github.com/Xgames123/PrimitierModManager/releases).
+Install the [latest release](https://github.com/Xgames123/PrimitierModManager/releases) (recommended) or you can go with a [manual install](./MANUAL_INSTALL_INSTRUCTIONS.md).
+
 
 ### Fixing error
 If you get this click on More information.(This will go away if enough people download Primitier mod manager)
