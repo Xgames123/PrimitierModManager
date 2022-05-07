@@ -33,6 +33,19 @@ namespace PrimitierModManager.MelonLoader
         public static string Error;
 
 
+        public static bool GetIsInstalled()
+		{
+            
+            string MelonLoader_Folder = Path.Combine(ConfigFile.Config.PrimitierInstallPath, "MelonLoader");
+            if (Directory.Exists(MelonLoader_Folder))
+			{
+                return true;
+			}
+
+
+            return false;
+        }
+
 
         public static void Uninstall(string destination)
         {
@@ -117,8 +130,13 @@ namespace PrimitierModManager.MelonLoader
 
 
 
-        public static void Install(string destination, string selected_version, bool is_x86, bool legacy_version)
+        public static void Install(string? destination, string selected_version, bool is_x86, bool legacy_version)
         {
+            if (destination == null)
+			{
+                Error = "Install destination is null";
+                return;
+			}
 
 
             Status = "";

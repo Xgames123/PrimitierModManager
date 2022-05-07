@@ -27,7 +27,15 @@ namespace PrimitierModManager
 
 			foreach (var mod in ModManager.ActiveMods)
 			{
-				ExtractModFiles(mod, collector);
+				if (mod.IsModpack)
+				{
+					ExtractModpackFiles(mod, collector);
+				}
+				else
+				{
+					ExtractModFiles(mod, collector);
+				}
+				
 			}
 
 			CopyProxyDlls(collector);
@@ -125,7 +133,7 @@ namespace PrimitierModManager
 		}
 
 
-		private static void ExtractModFiles(Mod mod, IErrorCollector collector)
+		private static void ExtractModpackFiles(Mod modpack, IErrorCollector collector)
 		{
 			if (ConfigFile.Config == null && !ConfigFile.Load(collector))
 			{
@@ -134,19 +142,88 @@ namespace PrimitierModManager
 
 			try
 			{
-				var zip = ZipFile.OpenRead(mod.FileName);
+				var zip = ZipFile.OpenRead(modpack.FileName);
 
-				string melonModsDir = Path.Combine(ConfigFile.Config.PrimitierInstallPath, "Mods");
 
-				zip.ExtractToDirectory(melonModsDir, true);
+				foreach (var entry in zip.Entries)
+				{
+					if (entry.Name.EndsWith(".pmfm") || entry.Name.EndsWith(".zip"))
+					{
+						ExtractModFiles(entry, collector);
+					}
+
+				} 
 
 
 				zip.Dispose();
-			}catch(Exception e)
-			{
-				collector.LogError($"Can not extract mod '{mod.FileName}'");
 			}
-		
+			catch (Exception e)
+			{
+				collector.LogError($"Can not extract modpack '{modpack.FileName}'");
+			}
+
+		}
+
+		private static void ExtractModFiles(ZipArchiveEntry entry, IErrorCollector collector)
+		{
+			if (entry == null)
+			{
+				return;
+			}
+
+			var zipStream = entry.Open();
+			var zip = new ZipArchive(zipStream, ZipArchiveMode.Read, true);
+
+			ExtractModFiles(zip, entry.FullName, collector);
+
+			zip.Dispose();
+			zipStream.Close();
+
+		}
+
+
+		private static void ExtractModFiles(ZipArchive modzip, string modFileName, IErrorCollector collector)
+		{
+
+			try
+			{
+				string melonModsDir = Path.Combine(ConfigFile.Config.PrimitierInstallPath, "Mods");
+
+				if (modzip.GetEntry("Mod.json") == null)
+				{
+					return;
+				}
+
+				modzip.ExtractToDirectory(melonModsDir, true);
+			}
+			catch (Exception e)
+			{
+				collector.LogError($"Can not extract mod '{modFileName}'");
+			}
+
+			
+
+		}
+
+
+		private static void ExtractModFiles(Mod mod, IErrorCollector collector)
+		{
+			if (mod.IsModpack)
+			{
+				ExtractModpackFiles(mod, collector);
+				return;
+			}
+
+			if (ConfigFile.Config == null && !ConfigFile.Load(collector))
+			{
+				return;
+			}
+			var zip = ZipFile.OpenRead(mod.FileName);
+
+			ExtractModFiles(zip, mod.FileName, collector);
+
+			zip.Dispose();
+
 		}
 
 

@@ -224,7 +224,13 @@ namespace PrimitierModManager
 			var zipStream = File.Open(file, FileMode.Open, FileAccess.ReadWrite);
 			var zip = new ZipArchive(zipStream, ZipArchiveMode.Update);
 
+			bool isModpack = false;
 			var modjsonEntry = zip.GetEntry("Mod.json");
+			if (modjsonEntry == null)
+			{
+				modjsonEntry = zip.GetEntry("Modpack.json");
+				isModpack = true;
+			}
 			if (modjsonEntry == null)
 			{
 				modjsonEntry = GenerateModJsonFile(zip, file);
@@ -253,7 +259,7 @@ namespace PrimitierModManager
 			}
 			else
 			{
-				if (ZipHelper.IsPMFMod(zip))
+				if (ZipHelper.IsPMFMod(zip) || isModpack)
 				{
 					if (DefaultPMFIcon == null)
 					{
@@ -280,7 +286,12 @@ namespace PrimitierModManager
 			zip.Dispose();
 			zipStream.Close();
 
+			if (isModpack)
+			{
+				mod.DisplayName += " (Modpack)";
+			}
 
+			mod.IsModpack = isModpack;
 			mod.Name = Path.GetFileNameWithoutExtension(file);
 			mod.FileName = file;
 			mod.InitUI();

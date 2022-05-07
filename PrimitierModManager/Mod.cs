@@ -9,10 +9,10 @@ namespace PrimitierModManager
 {
 
 
-
 	[Serializable]
 	public class Mod
 	{
+		
 		[JsonProperty(Required = Required.Always)] public string DisplayName { get; set; }
 		[JsonProperty(Required = Required.DisallowNull)] public string Authors { get; set; } = "";
 		[JsonProperty(Required = Required.DisallowNull)] public string Description { get; set; } = "";
@@ -24,6 +24,7 @@ namespace PrimitierModManager
 		[JsonIgnore] public ICommand OnDeleteCommand { get; set; }
 		[JsonIgnore] public string FileName;
 		[JsonIgnore] public string Name;
+		[JsonIgnore] public bool IsModpack { get; set; } = false;
 
 		[JsonIgnore] public BitmapImage Image { get; set; }
 

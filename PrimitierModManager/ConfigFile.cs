@@ -70,11 +70,6 @@ namespace PrimitierModManager
 			{
 			}
 			
-			
-			if (App.MainWindow != null)
-			{
-				App.MainWindow.SwitchMenu(1);
-			}
 
 			return false;
 		}

@@ -27,6 +27,8 @@ namespace PrimitierModManager.Menus.Configuration
 	public partial class SetupPrimitierPathMenu : UserControl
 	{
 
+		private static string? _draggedFile;
+
 		public SetupPrimitierPathMenu()
 		{
 			InitializeComponent();
@@ -43,43 +45,23 @@ namespace PrimitierModManager.Menus.Configuration
 
 		}
 
-		private void ResetDragDrop()
+		private void SetDragDrop(string? filePath)
 		{
 			DropTarget.AllowDrop = true;
-			DropTargetText.Text = "Drag Primiter.exe into here";
-			ButtonProgressAssist.SetIsIndicatorVisible(DropTarget, false);
-		}
+			_draggedFile = filePath;
 
-		private void SetDragDrop(string filePath)
-		{
-			
-			DropTarget.AllowDrop = false;
-			DropTargetText.Text = "Loading";
-			ButtonProgressAssist.SetIsIndicatorVisible(DropTarget, true);
-
-			Task.Factory.StartNew(() => Setup.SetupPrimitierExe(filePath, Dispatcher))
-			.ContinueWith(t =>
+			if (_draggedFile != null)
 			{
-				Dispatcher.Invoke(() =>
-				{
-					if (Setup.SetupPrimitierExeError != "")
-					{
-						ResetDragDrop();
-						PopupManager.ShowErrorPopup(Setup.SetupPrimitierExeError);
-					}
-					else
-					{
-						Next.IsEnabled = true;
-						DropTargetText.Text = "Done";
-						ButtonProgressAssist.SetIsIndicatorVisible(DropTarget, false);
-					}
+				DropTargetText.Text = "Primitier path is valid click on next to continue";
+				Next.IsEnabled = true;
+			}
+			else
+			{
+				DropTargetText.Text = "Drag Primiter.exe into here";
+				Next.IsEnabled = false;
+			}
 
-				});
-
-
-			});
-
-
+			
 		}
 
 
@@ -101,6 +83,29 @@ namespace PrimitierModManager.Menus.Configuration
 
 		private void NextButtonClick(object sender, RoutedEventArgs e)
 		{
+			ButtonProgressAssist.SetIsIndicatorVisible(DropTarget, true);
+			Task.Factory.StartNew(() => Setup.SetupPrimitierExe(_draggedFile, Dispatcher))
+			.ContinueWith(t =>
+			{
+				Dispatcher.Invoke(() =>
+				{
+					if (Setup.SetupPrimitierExeError != "")
+					{
+						SetDragDrop(null);
+						PopupManager.ShowErrorPopup(Setup.SetupPrimitierExeError);
+					}
+					else
+					{
+						Next.IsEnabled = true;
+						DropTargetText.Text = "Done";
+						ButtonProgressAssist.SetIsIndicatorVisible(DropTarget, false);
+					}
+
+				});
+
+
+			});
+
 			App.MainWindow.SwitchMenu(0);
 
 		}

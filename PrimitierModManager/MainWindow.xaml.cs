@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf.Transitions;
+using PrimitierModManager.MelonLoader;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,17 @@ namespace PrimitierModManager
 			App.MainWindow = this;
 			InitializeComponent();
 
-			SwitchMenu(0);
+			ConfigFile.Load();
+			if (ConfigFile.Config == null || !MelonInstaller.GetIsInstalled())
+			{		
+				SwitchMenu(1);
+			}
+			else
+			{
+				SwitchMenu(0);
+			}
+
+			
 
 			var version = Assembly.GetEntryAssembly().GetName().Version;
 			Title = "Primitier mod manager v"+version.ToString(3);
