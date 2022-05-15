@@ -22,3 +22,4 @@ find a mod you want to download and drag it into Primitier mod manager
 ## Step 3
 Click the arrow next to the mod to select it and
 than click on the Launch Primitier button.
+**Note: Sometimes the mod loader fixes itself after a couple of runs. So if you have errors try running again**
