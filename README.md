@@ -13,6 +13,10 @@ Install the [latest release](https://github.com/Xgames123/PrimitierModManager/re
 If you get this click on More information.(This will go away if enough people download Primitier mod manager)
 ![Error](YourPCIsProtected.png)
 
+If you get this you have to install '.NET 5.0 desktop x64'
+![TODO add image]()
+
+
 ## Step 2
 find a mod you want to download and drag it into Primitier mod manager
 ### some mods i have found
