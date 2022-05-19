@@ -11,10 +11,10 @@ Install the [latest release](https://github.com/Xgames123/PrimitierModManager/re
 
 ### Fixing error
 If you get this click on More information.(This will go away if enough people download Primitier mod manager)
-![Error](YourPCIsProtected.png)
+![Your PC ^is protected error](YourPCIsProtected.png)
 
 If you get this you have to install '.NET 5.0 desktop x64'
-![TODO add image]()
+![.NET error](DotnetError.png)
 
 
 ## Step 2
