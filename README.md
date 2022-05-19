@@ -10,7 +10,7 @@ Install the [latest release](https://github.com/Xgames123/PrimitierModManager/re
 
 
 ### Fixing error
-If you get this click on More information.(This will go away if enough people download Primitier mod manager)
+If you get this click on More information. (This will go away if enough people download Primitier mod manager)
 
 ![Your PC ^is protected error](YourPCIsProtected.png)
 
