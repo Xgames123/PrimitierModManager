@@ -22,6 +22,7 @@ If you get this you have to install '.NET 5.0 desktop x64'
 ## Step 2
 find a mod you want to download and drag it into Primitier mod manager
 ### some mods i have found
+- [GracefulBoy Primitive Engineering](https://cdn.discordapp.com/attachments/976952052477485166/993999072035885146/Primitive_Engineering_v0.0.2.pmfm)
 - [SomeRandomDude HungerMod](https://github.com/SomeRandomDude-git/PrimiterMods/tree/main/BasicHungerMod)
 - [TotalJTM Creative mod](https://github.com/TotalJTM/PrimitierCreativeMode) (Currently broken but I have made a [fixed version](https://github.com/Xgames123/PrimitierCreativeMod))
 - [Seva167 Thruster mod](https://github.com/Seva167/PrimitierMods/releases/tag/Release-17-05-2022)
