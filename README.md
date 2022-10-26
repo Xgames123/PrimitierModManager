@@ -24,7 +24,7 @@ find a mod you want to download and drag it into Primitier mod manager
 ### some mods i have found
 - [GracefulGal Primitive Engineering](https://cdn.discordapp.com/attachments/976952052477485166/1000870146543464458/Primitive_Engineering_v0.1.2.pmfm)
 - [TotalJTM Creative mod](https://github.com/TotalJTM/PrimitierCreativeMode) (Currently broken but I have made a [fixed version](https://github.com/Xgames123/PrimitierCreativeMod))
-- [Seva167 Thruster mod](https://github.com/Seva167/PrimitierMods/releases)
+- [Seva167 Thruster mod](https://github.com/Seva167/PrimitierMods/releases/latest)
 - [Seva167 Languages mod](https://github.com/Seva167/Primiter-LanguagesMod)
 - [SomeRandomDude HungerMod](https://github.com/SomeRandomDude-git/PrimiterMods/tree/main/BasicHungerMod) (I don't know if this still works)
 
