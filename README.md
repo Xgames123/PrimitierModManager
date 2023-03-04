@@ -1,6 +1,8 @@
 # Primitier mod manager
 **NOTE: Im no longer developing this project. Maybe in the future i'l work on it again**
+
 **ANOTHER NOTE: Everything is currently broken**
+
 Primitier mod manager is a tool to easily install mods for Primitier.
 
 ![Demo gif](PrimitierModManagerDemo.gif)
